@@ -2,13 +2,21 @@
   <div class="wraper">
     <h1>自己封装的element组件</h1>
     <h3>table表格组件</h3>
-    <el-table :data="tableDatas.tableData" style="width: 100%">
-      <el-table-column type="selection" v-if="tableDatas.selectionShow">
+    <el-table :data="tableDatas.tableData" >
+      <el-table-column
+        type="selection"
+        v-if="tableDatas.selectionShow !== false"
+      >
       </el-table-column>
       <el-table-column
         type="index"
-        :label="tableDatas.indexLabel"
-        v-if="tableDatas.indexShow"
+        :label="
+          tableDatas.indexLabel === undefined
+            ? (tableDatas.indexLabel = '序号')
+            : tableDatas.indexLabel
+        "
+        v-if="tableDatas.indexShow !== false"
+        width=""
       >
       </el-table-column>
       <el-table-column
@@ -24,14 +32,19 @@
 
 <script>
 export default {
+  created() {
+    console.log(this.tableDatas.selectionShow);
+    console.log(this.tableDatas.indexShow);
+    console.log(this.tableDatas.indexLabel);
+  },
   props: {
     tableDatas: {
       type: Object,
       default: () => {
         return {
-          selectionShow: true,
-          indexShow: true,
-          indexLabel: "序号",
+          // selectionShow: true,
+          // indexShow: true,
+          // indexLabel: "序号",
           labelProp: [
             { label: "姓名", prop: "name" },
             { label: "地址", prop: "address" },
